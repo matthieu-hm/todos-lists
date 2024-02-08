@@ -8,6 +8,7 @@ import {
 import { OAuthProviders } from '@app/shared';
 import { CommonBaseEntity } from './core';
 import { AuthToken } from './auth-token.entity';
+import { List } from './list.entity';
 
 @Entity('users')
 @Index(['oAuthProvider', 'oAuthId'], { unique: true })
@@ -49,4 +50,10 @@ export class User extends CommonBaseEntity {
     (authToken) => authToken.user,
   )
   authTokens?: AuthToken[];
+
+  @OneToMany(
+    () => List,
+    (list) => list.user,
+  )
+  lists?: List[];
 }

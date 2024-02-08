@@ -15,6 +15,7 @@ import { SlackAlerterModule } from '@app/slack-alerter';
 import { AuthModule } from '@app/auth';
 import { AuthModule as ApiAuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { TodosListsModule } from './modules/todos-lists/todos-lists.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule, // @app/auth
     ApiAuthModule, // ./modules/auth
     UsersModule,
+    TodosListsModule,
   ],
   providers: [
     {
