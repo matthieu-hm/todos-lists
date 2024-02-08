@@ -4,4 +4,5 @@ export interface IAuthConfig {
   refreshTokenTtlRemember: number;
   checkIpConsistency: boolean;
   checkOsAndBrowserConsistency: boolean;
+  passwordSalt: string;
 }

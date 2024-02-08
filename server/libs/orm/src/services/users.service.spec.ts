@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection, EntityManager } from 'typeorm';
 import { faker } from '@faker-js/faker';
@@ -26,6 +27,7 @@ describe('UsersService', () => {
       ],
       imports: [
         ConfigurationModule,
+        ConfigModule,
         DatabaseModule,
         TypeOrmModule.forFeature(entities),
       ],

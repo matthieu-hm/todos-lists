@@ -1,0 +1,42 @@
+<div class="container-sm mt-5 mb-4">
+  <div class="row gx-5">
+    <div class="col-md-6 mb-5">
+      <div class="mb-5">
+        <h1>Sign in</h1>
+      </div>
+
+      <div class="alert alert-danger" role="alert" *ngIf="showAlert">
+        {{alert.message}}
+      </div>
+
+      <form [formGroup]="signInForm" #signInNgForm="ngForm" (ngSubmit)="signIn()">
+        <div class="mb-5">
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="emailFormControl" class="form-label">Email*</label>
+            <input type="email" class="form-control" id="emailFormControl" [formControlName]="'email'">
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="passwordFormControl" class="form-label">Password*</label>
+            <input type="password" class="form-control" id="passwordFormControl" [formControlName]="'password'">
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary" [disabled]="signInForm.invalid">Sign in</button>
+      </form>
+    </div>
+
+    <div class="col-md-6 mb-5">
+      <div class="mb-5">
+        <h1>Sign in with</h1>
+      </div>
+
+      <div class="mb-5">
+        <app-btn-connect-google></app-btn-connect-google>
+      </div>
+    </div>
+  </div>
+</div>

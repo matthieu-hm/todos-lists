@@ -1,0 +1,77 @@
+<div class="container-sm mt-5 mb-4">
+  <div class="row gx-5">
+    <div class="col-md-6 mb-5">
+      <div class="mb-5">
+        <h1>Sign up</h1>
+      </div>
+
+      <div class="alert alert-danger" role="alert" *ngIf="showAlert">
+        {{alert.message}}
+      </div>
+
+      <form [formGroup]="signUpForm" #signUpNgForm="ngForm" (ngSubmit)="signUp()">
+        <div class="mb-5">
+          <!-- First name -->
+          <div class="mb-3">
+            <label for="firstNameFormControl" class="form-label">First name</label>
+            <input type="email" class="form-control" id="firstNameFormControl" [formControlName]="'firstName'">
+          </div>
+
+          <!-- Last name -->
+          <div class="mb-3">
+            <label for="lastNameFormControl" class="form-label">Last name</label>
+            <input type="email" class="form-control" id="lastNameFormControl" [formControlName]="'lastName'">
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="emailFormControl" class="form-label">Email*</label>
+            <input type="email" class="form-control" id="emailFormControl" [ngClass]="{'is-invalid': signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched}" [formControlName]="'email'">
+            <div *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched" class="form-text">
+              <div class="invalid-feedback" *ngIf="signUpForm.get('email')?.hasError('required')">Email address is required</div>
+              <div class="invalid-feedback" *ngIf="signUpForm.get('email')?.hasError('email')">Please enter a valid email address</div>
+              <div class="invalid-feedback" *ngIf="signUpForm.get('email')?.hasError('notIn')">This e-mail has already been taken.</div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="passwordFormControl" class="form-label">Password*</label>
+            <input type="password" class="form-control" id="passwordFormControl" [ngClass]="{'is-invalid': signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched}" aria-describedby="passwordHelp" [formControlName]="'password'">
+            <div id="passwordHelp" class="form-text">Min length: 8</div>
+            <div *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched" class="form-text">
+              <div class="invalid-feedback" *ngIf="signUpForm.get('password')?.hasError('required')">Password is required</div>
+              <div class="invalid-feedback" *ngIf="signUpForm.get('password')?.hasError('minLength')">Password too short</div>
+              <div class="invalid-feedback" *ngIf="signUpForm.get('password')?.hasError('maxLength')">Password too long</div>
+            </div>
+          </div>
+
+          <!-- Password confirmation -->
+          <div class="mb-3">
+            <label for="passwordConfirmFormControl" class="form-label">Password confirmation*</label>
+            <input type="password" class="form-control" id="passwordConfirmFormControl" [ngClass]="{'is-invalid': signUpForm.get('passwordConfirm')?.invalid && signUpForm.get('passwordConfirm')?.touched}" [formControlName]="'passwordConfirm'">
+          </div>
+
+          <!-- Term and Privacy policy -->
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="tosAcceptedFormControl" [ngClass]="{'is-invalid': signUpForm.get('tosAccepted')?.invalid && signUpForm.get('tosAccepted')?.touched}" [formControlName]="'tosAccepted'">
+            <label class="form-check-label" for="tosAcceptedFormControl">I agree with Terms of Service and Privacy Policy</label>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary" [disabled]="signUpForm.invalid">Sign up</button>
+      </form>
+    </div>
+
+    <div class="col-md-6 mb-5">
+      <div class="mb-5">
+        <h1>Sign up with</h1>
+      </div>
+
+      <div class="mb-5">
+        <app-btn-connect-google></app-btn-connect-google>
+      </div>
+    </div>
+  </div>
+</div>

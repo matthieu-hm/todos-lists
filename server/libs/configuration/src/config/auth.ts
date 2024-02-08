@@ -12,5 +12,6 @@ export default (): IAuthConfig => {
     refreshTokenTtlRemember,
     checkIpConsistency: process.env['AUTH_CHECK_IP_CONSISTENCY'] === 'true', // default: false
     checkOsAndBrowserConsistency: process.env['AUTH_CHECK_OS_AND_BROWSER_CONSISTENCY'] === 'true', // default: false
+    passwordSalt: process.env['AUTH_PASSWORD_SALT'] || 'super-secret-salt',
   };
 };

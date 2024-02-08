@@ -30,6 +30,42 @@ export class AuthService {
     };
   }
 
+  signIn(email: string, password: string) {
+    return this.httpClient.post<{ access_token: string; refresh_token: string }>(
+      `${this.environment.apiUrl}oauth/local/signin`,
+      { email, password },
+    )
+      .pipe(
+        tap((tokens) => {
+          if (tokens?.access_token) {
+            this.setAccessToken(tokens.access_token);
+          }
+          if (tokens?.refresh_token) {
+            this.setRefreshToken(tokens.refresh_token);
+          }
+        }),
+      );
+  }
+
+  signUp(email: string, password: string, firstName?: string, lastName?: string) {
+    return this.httpClient.post<{ access_token: string; refresh_token: string }>(
+      `${this.environment.apiUrl}oauth/local/signup`,
+      {
+        email, password, firstName, lastName,
+      },
+    )
+      .pipe(
+        tap((tokens) => {
+          if (tokens?.access_token) {
+            this.setAccessToken(tokens.access_token);
+          }
+          if (tokens?.refresh_token) {
+            this.setRefreshToken(tokens.refresh_token);
+          }
+        }),
+      );
+  }
+
   getAuthorizeUrl(oauthProvider: ExternalOAuthProvidersEnum, remember = false) {
     switch (oauthProvider) {
       case ExternalOAuthProvidersEnum.GOOGLE:

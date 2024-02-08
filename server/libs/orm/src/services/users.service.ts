@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, FindOptionsRelations, FindOptionsSelect, Repository } from 'typeorm';
+import { ConfigService } from '@nestjs/config';
+import * as sha256 from 'crypto-js/sha256';
+import {
+  FindOneOptions, FindOptionsRelations, FindOptionsSelect, Repository,
+} from 'typeorm';
 import { pick } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { LocalOAuthProvidersEnum, OAuthProviders } from '@app/shared';
+import { IAuthConfig } from '@app/configuration';
 import { User } from '../entities';
 import {
   UserAlreadyExistException,
@@ -16,10 +21,54 @@ import { BaseEntitiesService } from './core';
 
 @Injectable()
 export class UsersService extends BaseEntitiesService<User> {
+  private authConfig = this.configService.getOrThrow<IAuthConfig>('auth');
+
   constructor(
+    private configService: ConfigService,
     @InjectRepository(User) repository: Repository<User>,
   ) {
     super(UsersService.name, repository);
+  }
+
+  async existByEmail(
+    email: string,
+    withDeleted = false,
+    oAuthProvider: OAuthProviders = LocalOAuthProvidersEnum.LOCAL,
+  ): Promise<boolean> {
+    this.logger.verbose('existByEmail()');
+
+    // Fix: where options does not support generic entity type
+    const opt: FindOneOptions<User> = { where: { email, oAuthProvider } } as any;
+
+    if (withDeleted) {
+      opt.withDeleted = withDeleted;
+    }
+
+    return !!(await this.repository.count(opt));
+  }
+
+  async verifyPassword(email: string, password: string): Promise<string> {
+    this.logger.verbose('verifyPassword()');
+
+    // Fix: where options does not support generic entity type
+    const opt: FindOneOptions<User> = {
+      where: { email, oAuthProvider: LocalOAuthProvidersEnum.LOCAL },
+      select: ['id', 'email', 'password'],
+    } as any;
+
+    const entity = await this.repository.findOne(opt);
+
+    if (!entity) {
+      return this.throwNotFoundException();
+    }
+
+    const hashedPassword = await this.hashPassword(password, email);
+
+    if (entity.password !== hashedPassword) {
+      return this.throwNotFoundException();
+    }
+
+    return entity.id;
   }
 
   async findOneByEmail(
@@ -72,7 +121,7 @@ export class UsersService extends BaseEntitiesService<User> {
     });
   }
 
-  private async create(userData: Partial<User>): Promise<User> {
+  async create(userData: Partial<User>): Promise<User> {
     this.logger.verbose('create()');
 
     const allowedProperties = [
@@ -101,6 +150,8 @@ export class UsersService extends BaseEntitiesService<User> {
       if (!allowedData.email) {
         throw new Error('Local user creation require an email');
       }
+
+      allowedData.password = await this.hashPassword(allowedData.password, allowedData.email);
     }
     if (allowedData.oAuthProvider !== LocalOAuthProvidersEnum.LOCAL) {
       if (allowedData.password) {
@@ -133,6 +184,12 @@ export class UsersService extends BaseEntitiesService<User> {
     const allowedData = pick(updateData, allowedProperties);
 
     return this._update(user.id, allowedData);
+  }
+
+  private async hashPassword(password: string, email: string): Promise<string> {
+    this.logger.verbose('hashPassword()');
+
+    return sha256(`${password}-${email}-${this.authConfig.passwordSalt}`).toString();
   }
 
   private throwAlreadyExistException(): never {
