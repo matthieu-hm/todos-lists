@@ -8,7 +8,7 @@ export default (): IDatabaseConfig => {
 
   // Hack to avoid type conflict
   const connectionType: any = process.env['DATABASE_TYPE'] || 'postgres';
-  const databaseName = process.env['DATABASE_NAME'] || 'brainstorming';
+  const databaseName = process.env['DATABASE_NAME'] || 'ns_todos';
 
   const config: IDatabaseConfig = {
     connections: {

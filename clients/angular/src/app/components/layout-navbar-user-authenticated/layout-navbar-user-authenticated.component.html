@@ -1,0 +1,39 @@
+<ul class="navbar-nav flex-row flex-wrap ms-auto navbar-user">
+  <li class="nav-item dropdown">
+    <div class="btn btn-link nav-link py-2 px-2 dropdown-toggle navbar-user__dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
+      <div class="d-flex align-items-center">
+        <div class="flex-grow-1 me-3 text-end">
+          <ng-container *ngIf="currentUser$ | async as currentUser">
+            <div class="navbar-user__username"><strong>{{ currentUser.fullName || currentUser.preferredUsername }}</strong></div>
+            <div class="navbar-user__email">{{ currentUser.email }}</div>
+          </ng-container>
+        </div>
+
+        <div class="flex-shrink-0">
+          <img src="assets/icons/circle-user-solid-48.png" alt="User">
+        </div>
+      </div>
+    </div>
+    <ul class="dropdown-menu dropdown-menu-end navbar-user__dropdown-menu">
+      <li>
+        <a class="dropdown-item" [routerLink]="['/', 'users', 'me', 'profile']">
+          <i class="fa-regular fa-user me-2"></i>
+          Profile
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" [routerLink]="['/', 'users', 'me', 'security']">
+          <i class="fa-solid fa-lock me-2"></i>
+          Security
+        </a>
+      </li>
+      <li><hr class="dropdown-divider"></li>
+      <li>
+        <a class="dropdown-item navbar-user__logout-link" [routerLink]="['/', 'auth', 'logout']">
+          <i class="fa-solid fa-sign-out me-2"></i>
+          Sign out
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>

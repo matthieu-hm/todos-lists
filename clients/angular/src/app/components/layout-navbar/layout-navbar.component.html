@@ -1,0 +1,32 @@
+<header class="navbar navbar-expand-md sticky-top layout-navbar w-100">
+  <nav class="container-fluid flex-wrap flex-md-nowrap" aria-label="Main navigation">
+
+    <div class="layout-navbar__left d-flex flex-wrap flex-md-nowrap align-items-center">
+      <!-- MAIN LOGO -->
+      <a class="navbar-brand py-2 layout-navbar__logo" [routerLink]="['/']" aria-label="TodosLists">
+        <img src="assets/logos/TodosLists-brandmark-48.png" alt="TodosLists" class="d-md-none">
+        <img src="assets/logos/TodosLists-logo-48.png" alt="TodosLists" class="d-none d-md-inline-block">
+      </a>
+    </div>
+
+    <div class="layout-navbar__right d-flex flex-wrap flex-md-nowrap align-items-center">
+      <ng-container *ngIf="isAuthenticated; else userNotAuthenticatedTpl">
+        <div class="d-md-none">
+          <app-layout-navbar-user-authenticated-sm></app-layout-navbar-user-authenticated-sm>
+        </div>
+        <div class="d-none d-md-block">
+          <app-layout-navbar-user-authenticated></app-layout-navbar-user-authenticated>
+        </div>
+      </ng-container>
+      <ng-template #userNotAuthenticatedTpl>
+        <div class="d-md-none">
+          <app-layout-navbar-user-unauthenticated-sm></app-layout-navbar-user-unauthenticated-sm>
+        </div>
+        <div class="d-none d-md-block">
+          <app-layout-navbar-user-unauthenticated></app-layout-navbar-user-unauthenticated>
+        </div>
+      </ng-template>
+    </div>
+
+  </nav>
+</header>

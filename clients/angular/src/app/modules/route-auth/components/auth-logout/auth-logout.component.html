@@ -1,0 +1,19 @@
+<div *ngIf="!isAuthenticated" class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col col-md-6">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Vous êtes bien déconnecté</h5>
+          <p class="card-text text-muted">Vous pouvez fermer cette page.</p>
+
+          <a
+            class="btn btn-primary"
+            [routerLink]="['/']">
+            Retour à la page d'accueil
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

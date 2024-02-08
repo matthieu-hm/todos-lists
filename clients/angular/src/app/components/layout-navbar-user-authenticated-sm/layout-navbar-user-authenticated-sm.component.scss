@@ -1,0 +1,13 @@
+.navbar-user {
+  &__offcanvas-toggle {
+    &::after {
+      display: none;
+    }
+
+    &.show,
+    &:hover {
+      border-radius: 0;
+      background-color: rgba(var(--bs-black-rgb), 0.1);
+    }
+  }
+}
