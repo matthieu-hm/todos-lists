@@ -1,7 +1,11 @@
 # NestJs/Svelte TODOS
 
 
-[server](./server/README.md)
+## Server NestJS
+
+[README.md](./server/README.md)
 
 
-[client](./client/README.md)
+## Client
+
+[README.md](./client/README.md)

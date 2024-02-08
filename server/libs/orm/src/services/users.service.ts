@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOneOptions, FindOptionsRelations, FindOptionsSelect, Repository } from 'typeorm';
 import { pick } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { LocalOAuthProvidersEnum, OAuthProviders } from '@app/shared';
@@ -20,6 +20,37 @@ export class UsersService extends BaseEntitiesService<User> {
     @InjectRepository(User) repository: Repository<User>,
   ) {
     super(UsersService.name, repository);
+  }
+
+  async findOneByEmail(
+    email: string,
+    withDeleted = false,
+    relations?: FindOptionsRelations<User>,
+    select?: FindOptionsSelect<User>,
+  ): Promise<User> {
+    this.logger.verbose('findOneByEmail()');
+
+    const opt: FindOneOptions<User> = { where: { email } } as any;
+
+    if (withDeleted) {
+      opt.withDeleted = withDeleted;
+    }
+
+    if (relations) {
+      opt.relations = relations;
+    }
+
+    if (select) {
+      opt.select = select;
+    }
+
+    const entity = await this.repository.findOne(opt);
+
+    if (!entity) {
+      this.throwNotFoundException();
+    }
+
+    return entity;
   }
 
   async findOneOrCreateForOAuthProvider(
