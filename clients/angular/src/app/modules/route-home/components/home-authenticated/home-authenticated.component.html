@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col col-md-6">
+      <div class="mb-5">
+        <button class="btn btn-primary btn-lg w-100" (click)="openModal(modalTpl)">
+          New list
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12"></div>
+
+    <div class="col col-md-6 mb-5">
+      <app-todos-list
+        *ngFor="let list of lists"
+        [list]="list"/>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalTpl>
+  <div class="modal-header pb-2 navbar-user__modal-header">
+    <h5 class="modal-title pull-left">
+      New list
+    </h5>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body pt-0">
+    <form [formGroup]="listForm" (ngSubmit)="addList()">
+      <div class="hstack gap-3 mb-3 align-items-end">
+        <div class="form-group">
+          <label for="todosListTitleFormControl">Title</label>
+          <input type="text" class="form-control" id="todosListTitleFormControl" formControlName="title">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </form>
+
+  </div>
+</ng-template>

@@ -39,6 +39,7 @@ export class ListsService extends BaseEntitiesService<List> {
       where: { userId },
       relations,
       withDeleted,
+      order: { createdAt: 'DESC' },
     };
 
     return this.repository.find(findOptions);

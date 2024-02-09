@@ -1,1 +1,3 @@
-<div>Home component</div>
+<!-- On est d'accord c'est moche -->
+<app-home-authenticated *ngIf="isAuthenticated"></app-home-authenticated>
+<app-home-unauthenticated *ngIf="!isAuthenticated"></app-home-unauthenticated>

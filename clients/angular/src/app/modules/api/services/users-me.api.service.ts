@@ -5,7 +5,7 @@ import {
 } from 'rxjs';
 import { Environment } from 'src/app/modules/env';
 import { AuthService } from 'src/app/modules/auth';
-import { User } from '../models';
+import { List, User } from '../models';
 
 @Injectable()
 export class UsersMeApiService {
@@ -49,6 +49,17 @@ export class UsersMeApiService {
 
           return this.currentUser$;
         }),
+      );
+  }
+
+  getCurrentUserLists(): Observable<List[]> {
+    return this.httpClient
+      .get<List[]>(`${this.environment.apiUrl}users/me/todos-lists`)
+      .pipe(
+        map((listsData) => (
+          listsData.map((listData) => new List(listData))
+        )),
+        catchError(() => []),
       );
   }
 }

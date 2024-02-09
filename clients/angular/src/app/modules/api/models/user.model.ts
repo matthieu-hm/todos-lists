@@ -1,4 +1,5 @@
 import { OAuthProviders } from '@app/shared';
+import { List } from './list.model';
 
 export class User {
   id!: string;
@@ -17,12 +18,18 @@ export class User {
 
   phoneNumber?: string;
 
+  lists?: List[];
+
   createdAt!: string;
 
   updatedAt!: string;
 
   constructor(userData: Partial<User>) {
     Object.assign(this, userData);
+
+    if (userData.lists) {
+      this.lists = userData.lists.map((list) => new List(list));
+    }
   }
 
   get fullName(): string {

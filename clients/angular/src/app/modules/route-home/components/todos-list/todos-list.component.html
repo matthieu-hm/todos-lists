@@ -1,0 +1,16 @@
+<div class="mb-5">
+  <h2 class="mb-3">{{list.title}}</h2>
+
+  <app-todo
+    *ngFor="let todo of list.todos"
+    [todo]="todo"/>
+
+  <form [formGroup]="todoForm" (ngSubmit)="addTodo()">
+    <div class="hstack gap-3 mb-3 align-items-end">
+      <input type="text" class="form-control me-auto" id="todoTitleFormControl" placeholder="Something to do" formControlName="title">
+
+      <button type="submit" class="btn btn-light">+</button>
+    </div>
+  </form>
+
+</div>
