@@ -1,4 +1,4 @@
-# NestJs/Svelte TODOS
+# TodosLists
 
 
 ## Server NestJS
@@ -8,4 +8,6 @@
 
 ## Client
 
-[README.md](./client/README.md)
+### Angular
+
+[README.md](./clients/angular/README.md)

@@ -1,5 +1,5 @@
 {
-  "name": "todos-lists",
+  "name": "todos-lists-ng-client",
   "version": "0.0.1",
   "scripts": {
     "audit": "npm audit --audit-level high --production",
